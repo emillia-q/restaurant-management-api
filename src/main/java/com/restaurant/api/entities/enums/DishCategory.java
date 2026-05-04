@@ -1,4 +1,4 @@
-package com.restaurant.api.enums;
+package com.restaurant.api.entities.enums;
 
 public enum DishCategory {
     APPETIZER,
