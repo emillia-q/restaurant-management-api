@@ -35,4 +35,12 @@ public class ClientService {
         Client saved = clientRepository.save(client);
         return clientMapper.toCreatedResponse(saved);
     }
+
+    public ClientCreatedResponse updateClient(Long id, ClientRequest clientRequest) {
+        Client client =  clientRepository.findById(id)
+                .orElseThrow(() -> new ClientNotFoundException(id));
+        clientMapper.updateFromRequest(client, clientRequest);
+        Client saved = clientRepository.save(client);
+        return clientMapper.toCreatedResponse(saved);
+    }
 }

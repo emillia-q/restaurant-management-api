@@ -43,4 +43,12 @@ public class ClientController {
     public ClientCreatedResponse newClient(@RequestBody ClientRequest clientRequest)  {
         return clientService.addClient(clientRequest);
     }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Update client")
+    @ApiResponse(responseCode = "200")
+    public ClientCreatedResponse update(@PathVariable Long id, @RequestBody ClientRequest clientRequest) {
+        return clientService.updateClient(id, clientRequest);
+    }
 }

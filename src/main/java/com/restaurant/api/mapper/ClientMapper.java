@@ -37,4 +37,12 @@ public class ClientMapper {
         client.setDefaultDeliveryAddress(dto.getDefaultDeliveryAddress());
         return client;
     }
+
+    public void updateFromRequest(Client client, ClientRequest dto) {
+        client.setName(dto.getName());
+        client.setLastName(dto.getLastName());
+        client.setPhoneNumber(dto.getPhoneNumber());
+        client.setEmail(dto.getEmail());
+        client.setDefaultDeliveryAddress(dto.getDefaultDeliveryAddress());
+    }
 }
