@@ -1,17 +1,20 @@
 package com.restaurant.api.controller;
 
+import com.restaurant.api.dto.request.ClientRequest;
 import com.restaurant.api.dto.response.ClientResponse;
 import com.restaurant.api.entities.Client;
 import com.restaurant.api.mapper.ClientMapper;
 import com.restaurant.api.repository.ClientRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/clients")
+@RequestMapping(path = "/api/v1/clients")
 public class ClientController {
 
     private final ClientRepository repository;
@@ -23,9 +26,20 @@ public class ClientController {
     }
 
     @GetMapping
+    @Operation(summary = "Get the list of clients")
     public List<ClientResponse> all() {
         return repository.findAll().stream()
                 .map(mapper::toDTO)
                 .toList();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Add new client")
+    @ApiResponse(responseCode = "201", description = "Client created")
+    public ClientResponse add(@RequestBody ClientRequest clientRequest)  {
+        Client client = mapper.toEntity(clientRequest);
+        Client saved = repository.save(client);
+        return mapper.toDTO(saved);
     }
 }
