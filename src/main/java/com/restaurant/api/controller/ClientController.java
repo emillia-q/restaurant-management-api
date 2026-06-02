@@ -1,7 +1,8 @@
 package com.restaurant.api.controller;
 
 import com.restaurant.api.dto.request.ClientRequest;
-import com.restaurant.api.dto.response.ClientResponse;
+import com.restaurant.api.dto.response.ClientCreatedResponse;
+import com.restaurant.api.dto.response.ClientListItemResponse;
 import com.restaurant.api.entities.Client;
 import com.restaurant.api.mapper.ClientMapper;
 import com.restaurant.api.repository.ClientRepository;
@@ -27,9 +28,9 @@ public class ClientController {
 
     @GetMapping
     @Operation(summary = "Get the list of clients")
-    public List<ClientResponse> all() {
+    public List<ClientListItemResponse> all() {
         return repository.findAll().stream()
-                .map(mapper::toDTO)
+                .map(mapper::toListItemResponse)
                 .toList();
     }
 
@@ -37,9 +38,9 @@ public class ClientController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Add new client")
     @ApiResponse(responseCode = "201", description = "Client created")
-    public ClientResponse add(@RequestBody ClientRequest clientRequest)  {
+    public ClientCreatedResponse add(@RequestBody ClientRequest clientRequest)  {
         Client client = mapper.toEntity(clientRequest);
         Client saved = repository.save(client);
-        return mapper.toDTO(saved);
+        return mapper.toCreatedResponse(saved);
     }
 }
