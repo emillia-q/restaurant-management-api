@@ -25,6 +25,12 @@ Use subfolders:
 - `dto.request` for incoming payloads (optional for minimum),
 - `dto.response` for output payloads (especially HATEOAS responses).
 
+### `mapper`
+Mapping layer between entities and DTOs.
+
+Keep simple mapper classes here (for example `ClientMapper`) so controllers
+do not contain conversion logic.
+
 ### `service`
 Optional business layer for shared logic.
 
@@ -41,5 +47,6 @@ Use one global handler class in this package or in `controller`.
 - Controller: `ClientController`
 - Repository: `ClientRepository`
 - DTO: `ClientResponse`, `CreateClientRequest`
+- Mapper: `ClientMapper`
 - Exception: `ResourceNotFoundException`
 - Error response: `ApiError`
