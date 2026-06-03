@@ -1,31 +1,64 @@
 package com.restaurant.api.controller;
 
-import com.restaurant.api.dto.response.ClientResponse;
-import com.restaurant.api.entities.Client;
-import com.restaurant.api.mapper.ClientMapper;
-import com.restaurant.api.repository.ClientRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.restaurant.api.dto.request.ClientRequest;
+import com.restaurant.api.dto.response.ClientCreatedResponse;
+import com.restaurant.api.dto.response.ClientListItemResponse;
+import com.restaurant.api.service.ClientService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/clients")
+@RequiredArgsConstructor
+@RequestMapping(path = "/api/v1/clients")
 public class ClientController {
 
-    private final ClientRepository repository;
-    private final ClientMapper mapper;
-
-    ClientController(ClientRepository repository, ClientMapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
+    private final ClientService clientService;
 
     @GetMapping
-    public List<ClientResponse> all() {
-        return repository.findAll().stream()
-                .map(mapper::toDTO)
-                .toList();
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get the list of clients")
+    @ApiResponse(responseCode = "200", description = "List of clients")
+    public List<ClientListItemResponse> all() {
+        return clientService.getAllClients();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get client by id")
+    @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "404", description = "Client not found")
+    public ClientListItemResponse findById(@PathVariable Long id) {
+        return clientService.findClientById(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Add new client")
+    @ApiResponse(responseCode = "201", description = "Client created")
+    public ClientCreatedResponse newClient(@RequestBody ClientRequest clientRequest)  {
+        return clientService.addClient(clientRequest);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Update client")
+    @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "404", description = "Client not found")
+    public ClientCreatedResponse update(@PathVariable Long id, @RequestBody ClientRequest clientRequest) {
+        return clientService.updateClient(id, clientRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete client")
+    @ApiResponse(responseCode = "204")
+    @ApiResponse(responseCode = "404", description = "Client not found")
+    public void delete(@PathVariable Long id) {
+        clientService.deleteClient(id);
     }
 }
