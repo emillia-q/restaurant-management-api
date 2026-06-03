@@ -35,4 +35,12 @@ public class DishService {
         Dish saved = dishRepository.save(dish);
         return dishMapper.toCreatedResponse(saved);
     }
+
+    public DishCreatedResponse updateDish(Long id, DishRequest dishRequest) {
+        Dish dish = dishRepository.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(Dish.class, id));
+        dishMapper.updateFromRequest(dish, dishRequest);
+        Dish saved = dishRepository.save(dish);
+        return dishMapper.toCreatedResponse(saved);
+    }
 }

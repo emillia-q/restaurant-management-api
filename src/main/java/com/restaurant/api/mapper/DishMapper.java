@@ -37,4 +37,13 @@ public class DishMapper {
         dish.setIsVegetarian(dto.getIsVegetarian());
         return dish;
     }
+
+    public void updateFromRequest(Dish dish, DishRequest dishRequest) {
+        dish.setName(dishRequest.getName());
+        dish.setCategory(dishRequest.getCategory());
+        dish.setCalories(dishRequest.getCalories());
+        dish.setCurrentPrice(dishRequest.getCurrentPrice());
+        dish.setIsAvailable(dishRequest.getIsAvailable());
+        dish.setIsVegetarian(dishRequest.getIsVegetarian());
+    }
 }

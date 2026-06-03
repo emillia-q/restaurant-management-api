@@ -43,4 +43,13 @@ public class DishController {
     public DishCreatedResponse newDish(@RequestBody DishRequest dishRequest) {
         return dishService.addDish(dishRequest);
     }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Update dish by id")
+    @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "404", description = "Dish not found")
+    public DishCreatedResponse update(@PathVariable Long id, @RequestBody DishRequest dishRequest) {
+        return dishService.updateDish(id, dishRequest);
+    }
 }
