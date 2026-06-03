@@ -52,4 +52,14 @@ public class DishController {
     public DishCreatedResponse update(@PathVariable Long id, @RequestBody DishRequest dishRequest) {
         return dishService.updateDish(id, dishRequest);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete dish by id")
+    @ApiResponse(responseCode = "204")
+    @ApiResponse(responseCode = "404", description = "Dish not found")
+    public void delete(@PathVariable Long id) {
+        // TODO: return 409 Conflict when dish is referenced by order_items (before delete)
+        dishService.deleteDish(id);
+    }
 }

@@ -43,4 +43,10 @@ public class DishService {
         Dish saved = dishRepository.save(dish);
         return dishMapper.toCreatedResponse(saved);
     }
+
+    public void deleteDish(Long id) {
+        Dish dish = dishRepository.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(Dish.class, id));
+        dishRepository.delete(dish);
+    }
 }
