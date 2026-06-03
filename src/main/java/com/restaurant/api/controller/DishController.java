@@ -1,15 +1,14 @@
 package com.restaurant.api.controller;
 
+import com.restaurant.api.dto.request.DishRequest;
+import com.restaurant.api.dto.response.DishCreatedResponse;
 import com.restaurant.api.dto.response.DishListItemResponse;
 import com.restaurant.api.service.DishService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,4 +26,13 @@ public class DishController {
     public List<DishListItemResponse> all() {
         return dishService.getAllDishes();
     }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Add new dish")
+    @ApiResponse(responseCode = "201", description = "Dish created")
+    public DishCreatedResponse newDish(DishRequest dishRequest) {
+        return dishService.addDish(dishRequest);
+    }
+
 }
