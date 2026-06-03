@@ -4,6 +4,7 @@ import com.restaurant.api.dto.request.DishRequest;
 import com.restaurant.api.dto.response.DishCreatedResponse;
 import com.restaurant.api.dto.response.DishListItemResponse;
 import com.restaurant.api.entities.Dish;
+import com.restaurant.api.exception.ItemNotFoundException;
 import com.restaurant.api.mapper.DishMapper;
 import com.restaurant.api.repository.DishRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,12 @@ public class DishService {
         return dishRepository.findAll().stream()
                 .map(dishMapper::toListItemResponse)
                 .toList();
+    }
+
+    public DishListItemResponse findDishById(Long id) {
+        Dish dish = dishRepository.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(Dish.class, id));
+        return dishMapper.toListItemResponse(dish);
     }
 
     public DishCreatedResponse addDish(DishRequest dishRequest) {

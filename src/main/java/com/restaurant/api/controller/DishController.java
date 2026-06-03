@@ -27,12 +27,20 @@ public class DishController {
         return dishService.getAllDishes();
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get dish by id")
+    @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "404", description = "Dish not found")
+    public DishListItemResponse findById(@PathVariable Long id) {
+        return dishService.findDishById(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Add new dish")
     @ApiResponse(responseCode = "201", description = "Dish created")
-    public DishCreatedResponse newDish(DishRequest dishRequest) {
+    public DishCreatedResponse newDish(@RequestBody DishRequest dishRequest) {
         return dishService.addDish(dishRequest);
     }
-
 }
