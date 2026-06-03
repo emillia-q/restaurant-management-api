@@ -4,7 +4,7 @@ import com.restaurant.api.dto.request.ClientRequest;
 import com.restaurant.api.dto.response.ClientCreatedResponse;
 import com.restaurant.api.dto.response.ClientListItemResponse;
 import com.restaurant.api.entities.Client;
-import com.restaurant.api.exception.ClientNotFoundException;
+import com.restaurant.api.exception.ItemNotFoundException;
 import com.restaurant.api.mapper.ClientMapper;
 import com.restaurant.api.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class ClientService {
     public ClientListItemResponse findClientById(Long id) {
         return clientRepository.findById(id)
                 .map(clientMapper::toListItemResponse)
-                .orElseThrow(() -> new ClientNotFoundException(id));
+                .orElseThrow(() -> new ItemNotFoundException(Client.class, id));
     }
 
     public ClientCreatedResponse addClient(ClientRequest clientRequest) {
@@ -38,7 +38,7 @@ public class ClientService {
 
     public ClientCreatedResponse updateClient(Long id, ClientRequest clientRequest) {
         Client client =  clientRepository.findById(id)
-                .orElseThrow(() -> new ClientNotFoundException(id));
+                .orElseThrow(() -> new ItemNotFoundException(Client.class, id));
         clientMapper.updateFromRequest(client, clientRequest);
         Client saved = clientRepository.save(client);
         return clientMapper.toCreatedResponse(saved);
@@ -46,7 +46,7 @@ public class ClientService {
 
     public void deleteClient(Long id) {
         Client client = clientRepository.findById(id)
-                        .orElseThrow(() -> new ClientNotFoundException(id));
+                        .orElseThrow(() -> new ItemNotFoundException(Client.class, id));
         clientRepository.delete(client);
     }
 }
