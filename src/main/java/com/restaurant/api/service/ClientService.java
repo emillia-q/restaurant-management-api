@@ -43,4 +43,10 @@ public class ClientService {
         Client saved = clientRepository.save(client);
         return clientMapper.toCreatedResponse(saved);
     }
+
+    public void deleteClient(Long id) {
+        Client client = clientRepository.findById(id)
+                        .orElseThrow(() -> new ClientNotFoundException(id));
+        clientRepository.delete(client);
+    }
 }

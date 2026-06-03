@@ -48,7 +48,17 @@ public class ClientController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Update client")
     @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "404", description = "Client not found")
     public ClientCreatedResponse update(@PathVariable Long id, @RequestBody ClientRequest clientRequest) {
         return clientService.updateClient(id, clientRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete client")
+    @ApiResponse(responseCode = "204")
+    @ApiResponse(responseCode = "404", description = "Client not found")
+    public void delete(@PathVariable Long id) {
+        clientService.deleteClient(id);
     }
 }
