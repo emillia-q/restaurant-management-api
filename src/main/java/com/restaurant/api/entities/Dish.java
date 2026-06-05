@@ -43,12 +43,4 @@ public class Dish {
 
     @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recipe> recipes = new ArrayList<>();
-
-    public void toggleAvailability() {
-        this.isAvailable = !this.isAvailable;
-    }
-
-    public Double calculateCost() {
-        return this.currentPrice;
-    }
 }
