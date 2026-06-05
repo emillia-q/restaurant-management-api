@@ -20,8 +20,6 @@ public class OrderRequest {
 
     private Long clientId;
 
-    private Double totalPrice;
-
     private String deliveryAddress;
 
     private List<OrderItemRequest> items;

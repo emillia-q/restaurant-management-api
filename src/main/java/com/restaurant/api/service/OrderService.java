@@ -7,6 +7,8 @@ import com.restaurant.api.entities.Client;
 import com.restaurant.api.entities.Dish;
 import com.restaurant.api.entities.Order;
 import com.restaurant.api.entities.OrderItem;
+import com.restaurant.api.enums.OrderType;
+import com.restaurant.api.exception.BadRequestException;
 import com.restaurant.api.exception.ItemNotFoundException;
 import com.restaurant.api.mapper.OrderMapper;
 import com.restaurant.api.repository.ClientRepository;
@@ -35,12 +37,29 @@ public class OrderService {
         order.setClient(client);
         order.setOrderDateTime(LocalDateTime.now());
 
+        if (orderRequest.getType() == OrderType.DELIVERY) {
+            if (orderRequest.getDeliveryAddress() == null || orderRequest.getDeliveryAddress().isBlank())
+                throw new BadRequestException("Delivery address is required for DELIVERY orders");
+
+            order.setDeliveryAddress(orderRequest.getDeliveryAddress());
+        } else {
+            // Ignore address from body
+            order.setDeliveryAddress(null);
+        }
+
         for (OrderItemRequest itemReq : orderRequest.getItems()) {
             Dish dish = dishRepository.findById(itemReq.getDishId())
                     .orElseThrow(() -> new ItemNotFoundException(Dish.class, itemReq.getDishId()));
             OrderItem item = orderMapper.toOrderItem(itemReq, dish, order);
             order.getItems().add(item);
         }
+
+        // Calculate total order price
+        double total = order.getItems().stream()
+                .mapToDouble(OrderItem::calculateSubtotal)
+                .sum();
+
+        order.setTotalPrice(total);
 
         // Save order
         Order saved = orderRepository.save(order);
