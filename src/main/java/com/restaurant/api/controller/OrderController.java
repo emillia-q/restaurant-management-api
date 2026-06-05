@@ -21,6 +21,6 @@ public class OrderController {
     @ApiResponse(responseCode = "201", description = "Order added")
     @ApiResponse(responseCode = "404", description = "Client not found")
     public OrderCreatedResponse add(@RequestBody OrderRequest orderRequest) {
-
+        return orderService.addOrder(orderRequest);
     }
 }
