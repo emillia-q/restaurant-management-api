@@ -19,6 +19,7 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Add new order for client")
     @ApiResponse(responseCode = "201", description = "Order added")
+    @ApiResponse(responseCode = "400", description = "Bad request")
     @ApiResponse(responseCode = "404", description = "Client not found")
     public OrderCreatedResponse add(@RequestBody OrderRequest orderRequest) {
         return orderService.addOrder(orderRequest);
