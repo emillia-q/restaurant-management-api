@@ -3,6 +3,7 @@ package com.restaurant.api.service;
 import com.restaurant.api.dto.request.OrderItemRequest;
 import com.restaurant.api.dto.request.OrderRequest;
 import com.restaurant.api.dto.response.OrderCreatedResponse;
+import com.restaurant.api.dto.response.OrderDetailResponse;
 import com.restaurant.api.entities.Client;
 import com.restaurant.api.entities.Dish;
 import com.restaurant.api.entities.Order;
@@ -66,5 +67,12 @@ public class OrderService {
 
         // To response
         return orderMapper.toCreatedResponse(saved);
+    }
+
+    public OrderDetailResponse findOrderById(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(Order.class, id));
+
+        return orderMapper.toDetailResponse(order);
     }
 }

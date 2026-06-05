@@ -2,6 +2,7 @@ package com.restaurant.api.controller;
 
 import com.restaurant.api.dto.request.OrderRequest;
 import com.restaurant.api.dto.response.OrderCreatedResponse;
+import com.restaurant.api.dto.response.OrderDetailResponse;
 import com.restaurant.api.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,6 +15,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/api/v1/orders")
 public class OrderController {
     private final OrderService orderService;
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get order by id")
+    @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "404")
+    public OrderDetailResponse finById(@PathVariable Long id) {
+        return orderService.findOrderById(id);
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
