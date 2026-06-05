@@ -70,4 +70,10 @@ public class OrderMapper {
         dto.setPriceAtPurchase(item.getPriceAtPurchase());
         return dto;
     }
+
+    public void updateFromRequest(Order order, OrderRequest orderRequest) {
+        order.setOrderStatus(orderRequest.getOrderStatus());
+        order.setPaymentMethod(orderRequest.getPaymentMethod());
+        order.setType(orderRequest.getType());
+    }
 }

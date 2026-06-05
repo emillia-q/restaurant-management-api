@@ -75,4 +75,48 @@ public class OrderService {
 
         return orderMapper.toDetailResponse(order);
     }
+
+    public OrderCreatedResponse updateOrder(Long id, OrderRequest orderRequest) {
+        //Check if order exists
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(Order.class, id));
+
+        // Check if cielnt exists
+        Client client = clientRepository.findById(orderRequest.getClientId())
+                .orElseThrow(() -> new ItemNotFoundException(Client.class, orderRequest.getClientId()));
+
+        // Set missing entity fields
+        orderMapper.updateFromRequest(order, orderRequest);
+        order.setClient(client);
+
+        if (orderRequest.getType() == OrderType.DELIVERY) {
+            if (orderRequest.getDeliveryAddress() == null || orderRequest.getDeliveryAddress().isBlank())
+                throw new BadRequestException("Delivery address is required for DELIVERY orders");
+
+            order.setDeliveryAddress(orderRequest.getDeliveryAddress());
+        } else {
+            // Ignore address from body
+            order.setDeliveryAddress(null);
+        }
+
+        order.getItems().clear();
+        for (OrderItemRequest itemReq : orderRequest.getItems()) {
+            Dish dish = dishRepository.findById(itemReq.getDishId())
+                    .orElseThrow(() -> new ItemNotFoundException(Dish.class, itemReq.getDishId()));
+            OrderItem item = orderMapper.toOrderItem(itemReq, dish, order);
+            order.getItems().add(item);
+        }
+
+        // Calculate total order price
+        double total = order.getItems().stream()
+                .mapToDouble(OrderItem::calculateSubtotal)
+                .sum();
+
+        order.setTotalPrice(total);
+
+        // Save order
+        Order saved = orderRepository.save(order);
+
+        return orderMapper.toCreatedResponse(saved);
+    }
 }
