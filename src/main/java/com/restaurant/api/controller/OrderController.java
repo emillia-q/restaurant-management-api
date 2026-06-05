@@ -43,4 +43,13 @@ public class OrderController {
     public OrderCreatedResponse update(@PathVariable Long id, @RequestBody OrderRequest orderRequest) { // TODO: change it so it can remove orderitems
         return orderService.updateOrder(id, orderRequest);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete order by id")
+    @ApiResponse(responseCode = "204")
+    @ApiResponse(responseCode = "404", description = "Order not found")
+    public void delete(@PathVariable Long id) {
+        orderService.deleteOrder(id);
+    }
 }

@@ -119,4 +119,11 @@ public class OrderService {
 
         return orderMapper.toCreatedResponse(saved);
     }
+
+    public void deleteOrder(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(Order.class, id));
+
+        orderRepository.delete(order);
+    }
 }
