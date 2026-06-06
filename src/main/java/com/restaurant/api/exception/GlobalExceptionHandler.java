@@ -13,21 +13,24 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ItemNotFoundException.class)
-    public ResponseEntity<@NonNull Object> handleItemNotFoundException(ItemNotFoundException ex) {
+    private ResponseEntity<@NonNull Object> buildResponse(HttpStatus status, String message) {
         Map<String, Object> errorDetails = new HashMap<>();
         errorDetails.put("timestamp", LocalDateTime.now());
-        errorDetails.put("message", ex.getMessage());
-        errorDetails.put("status", HttpStatus.NOT_FOUND.value());
-        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+        errorDetails.put("message", message);
+        errorDetails.put("status", status.value());
+        return new ResponseEntity<>(errorDetails, status);
     }
 
+    // Business logic
+    // 404
+    @ExceptionHandler(ItemNotFoundException.class)
+    public ResponseEntity<@NonNull Object> handleItemNotFoundException(ItemNotFoundException ex) {
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    // 400
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<@NonNull Object> handleBadRequestException(BadRequestException ex) {
-        Map<String, Object> errorDetails = new HashMap<>();
-        errorDetails.put("timestamp", LocalDateTime.now());
-        errorDetails.put("message", ex.getMessage());
-        errorDetails.put("status", HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 }
