@@ -6,6 +6,7 @@ import com.restaurant.api.dto.response.ClientListItemResponse;
 import com.restaurant.api.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +41,8 @@ public class ClientController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Add new client")
     @ApiResponse(responseCode = "201", description = "Client created")
-    public ClientCreatedResponse newClient(@RequestBody ClientRequest clientRequest)  {
+    @ApiResponse(responseCode = "400", description = "Invalid input data")
+    public ClientCreatedResponse newClient(@Valid @RequestBody ClientRequest clientRequest)  {
         return clientService.addClient(clientRequest);
     }
 
@@ -48,8 +50,9 @@ public class ClientController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Update client")
     @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "400", description = "Invalid input data")
     @ApiResponse(responseCode = "404", description = "Client not found")
-    public ClientCreatedResponse update(@PathVariable Long id, @RequestBody ClientRequest clientRequest) {
+    public ClientCreatedResponse update(@PathVariable Long id, @Valid @RequestBody ClientRequest clientRequest) {
         return clientService.updateClient(id, clientRequest);
     }
 
