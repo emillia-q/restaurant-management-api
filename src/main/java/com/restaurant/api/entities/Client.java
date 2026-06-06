@@ -26,7 +26,7 @@ public class Client {
     @Column(nullable = false, length = 50)
     private String lastName;
 
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, unique = true, length = 15)
     private String phoneNumber;
 
     @Column(nullable = false, unique = true)
