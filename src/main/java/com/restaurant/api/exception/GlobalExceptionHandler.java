@@ -75,4 +75,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<@NonNull Object> handleUnsupportedMediaType(HttpMediaTypeNotSupportedException ex) {
         return buildResponse(HttpStatus.UNSUPPORTED_MEDIA_TYPE, ex.getMessage());
     }
+
+    // 500, when the database crashes or a sudden error occurs
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<@NonNull Object> handleGlobalException(Exception ex) {
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred on the server");
+    }
 }
