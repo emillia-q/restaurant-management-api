@@ -1,7 +1,7 @@
 package com.restaurant.api.mapper;
 
 import com.restaurant.api.dto.request.ClientRequest;
-import com.restaurant.api.dto.response.ClientCreatedResponse;
+import com.restaurant.api.dto.response.ClientDetailResponse;
 import com.restaurant.api.dto.response.ClientListItemResponse;
 import com.restaurant.api.entities.Client;
 import org.springframework.stereotype.Component;
@@ -19,8 +19,8 @@ public class ClientMapper {
         return dto;
     }
 
-    public ClientCreatedResponse toCreatedResponse(Client client) {
-        ClientCreatedResponse dto = new ClientCreatedResponse();
+    public ClientDetailResponse toDetailResponse(Client client) {
+        ClientDetailResponse dto = new ClientDetailResponse();
         dto.setId(client.getId());
         dto.setName(client.getName());
         dto.setLastName(client.getLastName());

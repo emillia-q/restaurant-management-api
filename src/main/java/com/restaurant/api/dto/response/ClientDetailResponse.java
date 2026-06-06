@@ -15,7 +15,7 @@ import lombok.Setter;
         "defaultDeliveryAddress",
         "loyaltyPoints"
 })
-public class ClientCreatedResponse {
+public class ClientDetailResponse {
     private Long id;
 
     private String name;

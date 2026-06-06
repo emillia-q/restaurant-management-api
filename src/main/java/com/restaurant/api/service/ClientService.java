@@ -1,7 +1,7 @@
 package com.restaurant.api.service;
 
 import com.restaurant.api.dto.request.ClientRequest;
-import com.restaurant.api.dto.response.ClientCreatedResponse;
+import com.restaurant.api.dto.response.ClientDetailResponse;
 import com.restaurant.api.dto.response.ClientListItemResponse;
 import com.restaurant.api.entities.Client;
 import com.restaurant.api.exception.BadRequestException;
@@ -25,13 +25,13 @@ public class ClientService {
                 .toList();
     }
 
-    public ClientListItemResponse findClientById(Long id) {
+    public ClientDetailResponse findClientById(Long id) {
         return clientRepository.findById(id)
-                .map(clientMapper::toListItemResponse)
+                .map(clientMapper::toDetailResponse)
                 .orElseThrow(() -> new ItemNotFoundException(Client.class, id));
     }
 
-    public ClientCreatedResponse addClient(ClientRequest clientRequest) {
+    public ClientDetailResponse addClient(ClientRequest clientRequest) {
         if (clientRepository.existsByEmail(clientRequest.getEmail()))
             throw new BadRequestException("Client with email: " + clientRequest.getEmail() + " already exists");
         if (clientRepository.existsByPhoneNumber(clientRequest.getPhoneNumber()))
@@ -39,10 +39,10 @@ public class ClientService {
 
         Client client = clientMapper.toEntity(clientRequest);
         Client saved = clientRepository.save(client);
-        return clientMapper.toCreatedResponse(saved);
+        return clientMapper.toDetailResponse(saved);
     }
 
-    public ClientCreatedResponse updateClient(Long id, ClientRequest clientRequest) {
+    public ClientDetailResponse updateClient(Long id, ClientRequest clientRequest) {
         Client client =  clientRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(Client.class, id));
 
@@ -54,7 +54,7 @@ public class ClientService {
 
         clientMapper.updateFromRequest(client, clientRequest);
         Client saved = clientRepository.save(client);
-        return clientMapper.toCreatedResponse(saved);
+        return clientMapper.toDetailResponse(saved);
     }
 
     public void deleteClient(Long id) {

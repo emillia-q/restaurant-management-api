@@ -1,7 +1,7 @@
 package com.restaurant.api.controller;
 
 import com.restaurant.api.dto.request.ClientRequest;
-import com.restaurant.api.dto.response.ClientCreatedResponse;
+import com.restaurant.api.dto.response.ClientDetailResponse;
 import com.restaurant.api.dto.response.ClientListItemResponse;
 import com.restaurant.api.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +33,7 @@ public class ClientController {
     @Operation(summary = "Get client by id")
     @ApiResponse(responseCode = "200")
     @ApiResponse(responseCode = "404", description = "Client not found")
-    public ClientListItemResponse findById(@PathVariable Long id) {
+    public ClientDetailResponse findById(@PathVariable Long id) {
         return clientService.findClientById(id);
     }
 
@@ -42,7 +42,7 @@ public class ClientController {
     @Operation(summary = "Add new client")
     @ApiResponse(responseCode = "201", description = "Client created")
     @ApiResponse(responseCode = "400", description = "Invalid input data")
-    public ClientCreatedResponse newClient(@Valid @RequestBody ClientRequest clientRequest)  {
+    public ClientDetailResponse newClient(@Valid @RequestBody ClientRequest clientRequest)  {
         return clientService.addClient(clientRequest);
     }
 
@@ -52,7 +52,7 @@ public class ClientController {
     @ApiResponse(responseCode = "200")
     @ApiResponse(responseCode = "400", description = "Invalid input data")
     @ApiResponse(responseCode = "404", description = "Client not found")
-    public ClientCreatedResponse update(@PathVariable Long id, @Valid @RequestBody ClientRequest clientRequest) {
+    public ClientDetailResponse update(@PathVariable Long id, @Valid @RequestBody ClientRequest clientRequest) {
         return clientService.updateClient(id, clientRequest);
     }
 

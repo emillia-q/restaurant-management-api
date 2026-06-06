@@ -1,7 +1,7 @@
 package com.restaurant.api.mapper;
 
 import com.restaurant.api.dto.request.DishRequest;
-import com.restaurant.api.dto.response.DishCreatedResponse;
+import com.restaurant.api.dto.response.DishDetailResponse;
 import com.restaurant.api.dto.response.DishListItemResponse;
 import com.restaurant.api.entities.Dish;
 import org.springframework.stereotype.Component;
@@ -15,8 +15,8 @@ public class DishMapper {
         return dto;
     }
 
-    public DishCreatedResponse toCreatedResponse(Dish dish) {
-        DishCreatedResponse dto = new DishCreatedResponse();
+    public DishDetailResponse toDetailResponse(Dish dish) {
+        DishDetailResponse dto = new DishDetailResponse();
         dto.setId(dish.getId());
         dto.setName(dish.getName());
         dto.setCategory(dish.getCategory());
