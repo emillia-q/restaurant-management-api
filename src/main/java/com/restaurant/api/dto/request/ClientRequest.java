@@ -12,16 +12,25 @@ import lombok.Setter;
 public class ClientRequest {
     @NotBlank(message = "First name is required")
     @Size(min = 3, max = 50, message = "First name must be between 3 and 50 characters")
+    @Pattern(
+            regexp = "^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$",
+            message = "First name must contain only letters"
+    )
     private String name;
 
     @NotBlank(message = "Last name is required")
-    @Size(min = 3, max = 50, message = "First name must be between 3 and 50 characters")
+    @Size(min = 3, max = 50, message = "Last name must be between 3 and 50 characters")
+    @Pattern(
+            regexp = "^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$",
+            message = "Last name must contain only letters"
+    )
     private String lastName;
 
     @NotBlank(message = "Phone number is required")
+    @Size(min = 9, max = 15, message = "Phone number must be between 9 and 15 digits long")
     @Pattern(
-            regexp = "^[0-9]{9,15}$",
-            message = "Phone number must contain only digits and be between 9 and 15 characters long"
+            regexp = "^[0-9]+$",
+            message = "Phone number must contain only digits"
     )
     private String phoneNumber;
 
