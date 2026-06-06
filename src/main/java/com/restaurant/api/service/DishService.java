@@ -6,8 +6,10 @@ import com.restaurant.api.dto.response.DishListItemResponse;
 import com.restaurant.api.entities.Dish;
 import com.restaurant.api.exception.BadRequestException;
 import com.restaurant.api.exception.ItemNotFoundException;
+import com.restaurant.api.exception.ResourceInUseException;
 import com.restaurant.api.mapper.DishMapper;
 import com.restaurant.api.repository.DishRepository;
+import com.restaurant.api.repository.OrderItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DishService {
     private final DishRepository dishRepository;
+    private final OrderItemRepository orderItemRepository;
     private final DishMapper dishMapper;
 
     public List<DishListItemResponse> getAllDishes() {
@@ -55,6 +58,10 @@ public class DishService {
     public void deleteDish(Long id) {
         Dish dish = dishRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(Dish.class, id));
+
+        if(orderItemRepository.existsByDishId(id))
+            throw new ResourceInUseException("Cannot delete dish because it is part of existing orders");
+
         dishRepository.delete(dish);
     }
 }

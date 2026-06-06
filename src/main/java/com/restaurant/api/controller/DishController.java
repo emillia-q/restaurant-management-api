@@ -63,7 +63,6 @@ public class DishController {
     @ApiResponse(responseCode = "404", description = "Dish not found")
     @ApiResponse(responseCode = "409", description = "Dish is used in orders and cannot be deleted")
     public void delete(@PathVariable Long id) {
-        // TODO: return 409 Conflict when dish is referenced by order_items (before delete)
         dishService.deleteDish(id);
     }
 }
