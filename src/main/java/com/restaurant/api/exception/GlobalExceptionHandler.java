@@ -13,8 +13,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -28,26 +28,37 @@ public class GlobalExceptionHandler {
     }
 
     // Business logic
-    // 404
-    @ExceptionHandler(ItemNotFoundException.class)
-    public ResponseEntity<@NonNull Object> handleItemNotFoundException(ItemNotFoundException ex) {
-        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
-    }
-
     // 400
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<@NonNull Object> handleBadRequestException(BadRequestException ex) {
         return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    // 404
+    @ExceptionHandler(ItemNotFoundException.class)
+    public ResponseEntity<@NonNull Object> handleItemNotFoundException(ItemNotFoundException ex) {
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    // 409
+    @ExceptionHandler(ResourceInUseException.class)
+    public ResponseEntity<@NonNull Object> handleResourceInUseException(ResourceInUseException ex) {
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
     // From Spring
     //400, DTO field validation
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<@NonNull Object> handleValidationException(MethodArgumentNotValidException ex) {
-        String errors = ex.getBindingResult().getFieldErrors().stream()
+        List<String> errors = ex.getBindingResult().getFieldErrors().stream()
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .collect(Collectors.joining(", "));
-        return buildResponse(HttpStatus.BAD_REQUEST, "Validation failed: " + errors);
+                .toList();
+
+        Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put("timestamp", LocalDateTime.now());
+        errorDetails.put("status", HttpStatus.BAD_REQUEST.value());
+        errorDetails.put("errors", errors);
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
     // 400, when someone type text instead of ID in URL

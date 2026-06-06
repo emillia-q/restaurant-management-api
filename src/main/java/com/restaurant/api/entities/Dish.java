@@ -1,15 +1,8 @@
 package com.restaurant.api.entities;
 
 import com.restaurant.api.enums.DishCategory;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -28,17 +21,23 @@ public class Dish {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true, length = 100)
     private String name;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private DishCategory category;
 
+    @Column(nullable = false)
     private Integer calories;
 
+    @Column(nullable = false)
     private Double currentPrice;
 
+    @Column(nullable = false)
     private Boolean isAvailable = true;
 
+    @Column(nullable = false)
     private Boolean isVegetarian = false;
 
     @OneToMany(mappedBy = "dish", cascade = CascadeType.ALL, orphanRemoval = true)

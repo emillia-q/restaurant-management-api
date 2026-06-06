@@ -6,6 +6,7 @@ import com.restaurant.api.dto.response.OrderDetailResponse;
 import com.restaurant.api.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class OrderController {
     @ApiResponse(responseCode = "201", description = "Order added")
     @ApiResponse(responseCode = "400", description = "Bad request")
     @ApiResponse(responseCode = "404", description = "Client not found")
-    public OrderCreatedResponse add(@RequestBody OrderRequest orderRequest) { // TODO: add protection against adding orderitem quantity = 0
+    public OrderCreatedResponse add(@Valid @RequestBody OrderRequest orderRequest) {
         return orderService.addOrder(orderRequest);
     }
 
@@ -39,8 +40,9 @@ public class OrderController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Update order by id")
     @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "400", description = "Bad request")
     @ApiResponse(responseCode = "404", description = "Order not found")
-    public OrderCreatedResponse update(@PathVariable Long id, @RequestBody OrderRequest orderRequest) { // TODO: change it so it can remove orderitems
+    public OrderCreatedResponse update(@PathVariable Long id, @Valid @RequestBody OrderRequest orderRequest) { // TODO: change it so it can remove orderitems
         return orderService.updateOrder(id, orderRequest);
     }
 

@@ -4,6 +4,7 @@ import com.restaurant.api.dto.request.ClientRequest;
 import com.restaurant.api.dto.response.ClientCreatedResponse;
 import com.restaurant.api.dto.response.ClientListItemResponse;
 import com.restaurant.api.entities.Client;
+import com.restaurant.api.exception.BadRequestException;
 import com.restaurant.api.exception.ItemNotFoundException;
 import com.restaurant.api.mapper.ClientMapper;
 import com.restaurant.api.repository.ClientRepository;
@@ -31,6 +32,11 @@ public class ClientService {
     }
 
     public ClientCreatedResponse addClient(ClientRequest clientRequest) {
+        if (clientRepository.existsByEmail(clientRequest.getEmail()))
+            throw new BadRequestException("Client with email: " + clientRequest.getEmail() + " already exists");
+        if (clientRepository.existsByPhoneNumber(clientRequest.getPhoneNumber()))
+            throw new BadRequestException("Client with phone number: " + clientRequest.getPhoneNumber() + " already exists");
+
         Client client = clientMapper.toEntity(clientRequest);
         Client saved = clientRepository.save(client);
         return clientMapper.toCreatedResponse(saved);
@@ -39,6 +45,13 @@ public class ClientService {
     public ClientCreatedResponse updateClient(Long id, ClientRequest clientRequest) {
         Client client =  clientRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(Client.class, id));
+
+        // Check if new email & phone nb are not taken by another client
+        if (!client.getEmail().equals(clientRequest.getEmail()) && clientRepository.existsByEmail(clientRequest.getEmail()))
+            throw new BadRequestException("Client with email: " + clientRequest.getEmail() + " already exists");
+        if (!client.getPhoneNumber().equals(clientRequest.getPhoneNumber()) && clientRepository.existsByPhoneNumber(clientRequest.getPhoneNumber()))
+            throw new BadRequestException("Client with phone number: " + clientRequest.getPhoneNumber() + " already exists");
+
         clientMapper.updateFromRequest(client, clientRequest);
         Client saved = clientRepository.save(client);
         return clientMapper.toCreatedResponse(saved);

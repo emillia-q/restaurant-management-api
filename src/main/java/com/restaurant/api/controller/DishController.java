@@ -6,6 +6,7 @@ import com.restaurant.api.dto.response.DishListItemResponse;
 import com.restaurant.api.service.DishService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +41,8 @@ public class DishController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Add new dish")
     @ApiResponse(responseCode = "201", description = "Dish created")
-    public DishCreatedResponse newDish(@RequestBody DishRequest dishRequest) {
+    @ApiResponse(responseCode = "400", description = "Invalid input data")
+    public DishCreatedResponse newDish(@Valid @RequestBody DishRequest dishRequest) {
         return dishService.addDish(dishRequest);
     }
 
@@ -48,8 +50,9 @@ public class DishController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Update dish by id")
     @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "400", description = "Invalid input data")
     @ApiResponse(responseCode = "404", description = "Dish not found")
-    public DishCreatedResponse update(@PathVariable Long id, @RequestBody DishRequest dishRequest) {
+    public DishCreatedResponse update(@PathVariable Long id, @Valid @RequestBody DishRequest dishRequest) {
         return dishService.updateDish(id, dishRequest);
     }
 
@@ -58,8 +61,8 @@ public class DishController {
     @Operation(summary = "Delete dish by id")
     @ApiResponse(responseCode = "204")
     @ApiResponse(responseCode = "404", description = "Dish not found")
+    @ApiResponse(responseCode = "409", description = "Dish is used in orders and cannot be deleted")
     public void delete(@PathVariable Long id) {
-        // TODO: return 409 Conflict when dish is referenced by order_items (before delete)
         dishService.deleteDish(id);
     }
 }
