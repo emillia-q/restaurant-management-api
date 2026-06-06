@@ -1,7 +1,7 @@
 package com.restaurant.api.service;
 
 import com.restaurant.api.dto.request.DishRequest;
-import com.restaurant.api.dto.response.DishCreatedResponse;
+import com.restaurant.api.dto.response.DishDetailResponse;
 import com.restaurant.api.dto.response.DishListItemResponse;
 import com.restaurant.api.entities.Dish;
 import com.restaurant.api.exception.BadRequestException;
@@ -28,21 +28,21 @@ public class DishService {
                 .toList();
     }
 
-    public DishListItemResponse findDishById(Long id) {
+    public DishDetailResponse findDishById(Long id) {
         Dish dish = dishRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(Dish.class, id));
-        return dishMapper.toListItemResponse(dish);
+        return dishMapper.toDetailResponse(dish);
     }
 
-    public DishCreatedResponse addDish(DishRequest dishRequest) {
+    public DishDetailResponse addDish(DishRequest dishRequest) {
         if (dishRepository.existsByName(dishRequest.getName()))
             throw new BadRequestException("Dish with name: " + dishRequest.getName() + " already exists");
         Dish dish = dishMapper.toEntity(dishRequest);
         Dish saved = dishRepository.save(dish);
-        return dishMapper.toCreatedResponse(saved);
+        return dishMapper.toDetailResponse(saved);
     }
 
-    public DishCreatedResponse updateDish(Long id, DishRequest dishRequest) {
+    public DishDetailResponse updateDish(Long id, DishRequest dishRequest) {
         Dish dish = dishRepository.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException(Dish.class, id));
 
@@ -52,7 +52,7 @@ public class DishService {
 
         dishMapper.updateFromRequest(dish, dishRequest);
         Dish saved = dishRepository.save(dish);
-        return dishMapper.toCreatedResponse(saved);
+        return dishMapper.toDetailResponse(saved);
     }
 
     public void deleteDish(Long id) {

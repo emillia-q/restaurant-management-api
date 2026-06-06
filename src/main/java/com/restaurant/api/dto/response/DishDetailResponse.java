@@ -16,7 +16,7 @@ import lombok.Setter;
         "isAvailable",
         "isVegetarian"
 })
-public class DishCreatedResponse {
+public class DishDetailResponse {
     private Long id;
 
     private String name;

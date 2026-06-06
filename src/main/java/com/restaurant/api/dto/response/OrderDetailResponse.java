@@ -20,7 +20,8 @@ import java.util.List;
         "type",
         "clientId",
         "deliveryAddress",
-        "totalPrice"
+        "totalPrice",
+        "items"
 })
 public class OrderDetailResponse {
     private Long id;

@@ -1,7 +1,7 @@
 package com.restaurant.api.controller;
 
 import com.restaurant.api.dto.request.DishRequest;
-import com.restaurant.api.dto.response.DishCreatedResponse;
+import com.restaurant.api.dto.response.DishDetailResponse;
 import com.restaurant.api.dto.response.DishListItemResponse;
 import com.restaurant.api.service.DishService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +33,7 @@ public class DishController {
     @Operation(summary = "Get dish by id")
     @ApiResponse(responseCode = "200")
     @ApiResponse(responseCode = "404", description = "Dish not found")
-    public DishListItemResponse findById(@PathVariable Long id) {
+    public DishDetailResponse findById(@PathVariable Long id) {
         return dishService.findDishById(id);
     }
 
@@ -42,7 +42,7 @@ public class DishController {
     @Operation(summary = "Add new dish")
     @ApiResponse(responseCode = "201", description = "Dish created")
     @ApiResponse(responseCode = "400", description = "Invalid input data")
-    public DishCreatedResponse newDish(@Valid @RequestBody DishRequest dishRequest) {
+    public DishDetailResponse newDish(@Valid @RequestBody DishRequest dishRequest) {
         return dishService.addDish(dishRequest);
     }
 
@@ -52,7 +52,7 @@ public class DishController {
     @ApiResponse(responseCode = "200")
     @ApiResponse(responseCode = "400", description = "Invalid input data")
     @ApiResponse(responseCode = "404", description = "Dish not found")
-    public DishCreatedResponse update(@PathVariable Long id, @Valid @RequestBody DishRequest dishRequest) {
+    public DishDetailResponse update(@PathVariable Long id, @Valid @RequestBody DishRequest dishRequest) {
         return dishService.updateDish(id, dishRequest);
     }
 
