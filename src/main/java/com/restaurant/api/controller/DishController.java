@@ -49,7 +49,6 @@ public class DishController {
     @ApiResponse(responseCode = "200")
     @ApiResponse(responseCode = "404", description = "Dish not found")
     public List<RecipeResponse> getRecipesForDish(@PathVariable Long id) {
-        dishService.findDishById(id); // Validation -> 404 when doesn't exist
         return recipeService.getRecipesByDishId(id);
     }
 
