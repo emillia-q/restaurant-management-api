@@ -1,8 +1,10 @@
 package com.restaurant.api.controller;
 
+import com.restaurant.api.assembler.ClientModelAssembler;
 import com.restaurant.api.dto.request.ClientRequest;
 import com.restaurant.api.dto.response.ClientDetailResponse;
 import com.restaurant.api.dto.response.ClientListItemResponse;
+import com.restaurant.api.dto.response.hateoas.ClientResource;
 import com.restaurant.api.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,6 +21,7 @@ import java.util.List;
 public class ClientController {
 
     private final ClientService clientService;
+    private final ClientModelAssembler clientModelAssembler;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -30,11 +33,22 @@ public class ClientController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Get client by id")
+    @Operation(summary = "Get client by id with HATEOAS links")
     @ApiResponse(responseCode = "200")
     @ApiResponse(responseCode = "404", description = "Client not found")
-    public ClientDetailResponse findById(@PathVariable Long id) {
-        return clientService.findClientById(id);
+    public ClientResource findById(@PathVariable Long id) {
+        ClientDetailResponse dto = clientService.findClientById(id);
+        return clientModelAssembler.toModel(dto);
+    }
+
+    @GetMapping("/{id}/orders")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get list of orders for client")
+    @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "404", description = "Client not found")
+    public List<> getOrdersForClient(@PathVariable Long id) {
+        ClientDetailResponse dto = clientService.findClientById(id);
+        return clientModelAssembler.toModel(dto);
     }
 
     @PostMapping

@@ -1,6 +1,5 @@
 package com.restaurant.api.dto.response.hateoas;
 
-import com.restaurant.api.enums.DishCategory;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,18 +8,18 @@ import org.springframework.hateoas.RepresentationModel;
 @Getter
 @RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class DishResource extends RepresentationModel<DishResource> {
+public class ClientResource extends RepresentationModel<ClientResource> {
     private final Long id;
 
     private final String name;
 
-    private final DishCategory category;
+    private final String lastName;
 
-    private final Integer calories;
+    private final String phoneNumber;
 
-    private final Double currentPrice;
+    private final String email;
 
-    private final Boolean isAvailable;
+    private final String defaultDeliveryAddress;
 
-    private final Boolean isVegetarian;
+    private final Integer loyaltyPoints;
 }

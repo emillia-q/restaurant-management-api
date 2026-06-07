@@ -3,7 +3,6 @@ package com.restaurant.api.assembler;
 import com.restaurant.api.controller.DishController;
 import com.restaurant.api.dto.response.DishDetailResponse;
 import com.restaurant.api.dto.response.hateoas.DishResource;
-import com.restaurant.api.mapper.DishMapper;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
