@@ -30,8 +30,7 @@ public class DishModelAssembler extends RepresentationModelAssemblerSupport<Dish
         );
 
         model.add(
-                linkTo(methodOn(DishController.class).findById(entity.getId())).withSelfRel(),
-                linkTo(methodOn(DishController.class).findById(entity.getId())).withRel("recipes")
+                linkTo(methodOn(DishController.class).getRecipesForDish(entity.getId())).withRel("recipes")
         );
 
         return model;
