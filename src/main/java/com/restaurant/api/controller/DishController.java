@@ -1,9 +1,13 @@
 package com.restaurant.api.controller;
 
+import com.restaurant.api.assembler.DishModelAssembler;
 import com.restaurant.api.dto.request.DishRequest;
 import com.restaurant.api.dto.response.DishDetailResponse;
 import com.restaurant.api.dto.response.DishListItemResponse;
+import com.restaurant.api.dto.response.RecipeResponse;
+import com.restaurant.api.dto.response.hateoas.DishResource;
 import com.restaurant.api.service.DishService;
+import com.restaurant.api.service.RecipeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
@@ -19,6 +23,8 @@ import java.util.List;
 public class DishController {
 
     private final DishService dishService;
+    private final RecipeService recipeService;
+    private final DishModelAssembler dishModelAssembler;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -29,12 +35,21 @@ public class DishController {
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Get dish by id")
+    @Operation(summary = "Get dish by id with HATEOAS links")
     @ApiResponse(responseCode = "200")
     @ApiResponse(responseCode = "404", description = "Dish not found")
-    public DishDetailResponse findById(@PathVariable Long id) {
-        return dishService.findDishById(id);
+    public DishResource findById(@PathVariable Long id) {
+        DishDetailResponse dto =  dishService.findDishById(id);
+        return dishModelAssembler.toModel(dto);
+    }
+
+    @GetMapping("/{id}/recipes")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get list of recipes for dish")
+    @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "404", description = "Dish not found")
+    public List<RecipeResponse> getRecipesForDish(@PathVariable Long id) {
+        return recipeService.getRecipesByDishId(id);
     }
 
     @PostMapping
