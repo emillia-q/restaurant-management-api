@@ -3,6 +3,7 @@ package com.restaurant.api.controller;
 import com.restaurant.api.dto.request.OrderRequest;
 import com.restaurant.api.dto.response.OrderCreatedResponse;
 import com.restaurant.api.dto.response.OrderDetailResponse;
+import com.restaurant.api.dto.response.OrderListItemResponse;
 import com.restaurant.api.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,11 +12,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/orders")
 public class OrderController {
     private final OrderService orderService;
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Get list of all orders")
+    @ApiResponse(responseCode = "200", description = "List of orders")
+    public List<OrderListItemResponse> all() {
+        return orderService.getAllOrders();
+    }
+
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)

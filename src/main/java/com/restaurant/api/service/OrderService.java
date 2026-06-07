@@ -4,6 +4,7 @@ import com.restaurant.api.dto.request.OrderItemRequest;
 import com.restaurant.api.dto.request.OrderRequest;
 import com.restaurant.api.dto.response.OrderCreatedResponse;
 import com.restaurant.api.dto.response.OrderDetailResponse;
+import com.restaurant.api.dto.response.OrderListItemResponse;
 import com.restaurant.api.entities.Client;
 import com.restaurant.api.entities.Dish;
 import com.restaurant.api.entities.Order;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +29,12 @@ public class OrderService {
     private final ClientRepository clientRepository;
     private final DishRepository dishRepository;
     private final OrderMapper orderMapper;
+
+    public List<OrderListItemResponse> getAllOrders() {
+        return orderRepository.findAll().stream()
+                .map(orderMapper::toListItemResponse)
+                .toList();
+    }
 
     public OrderCreatedResponse addOrder(OrderRequest orderRequest) {
         // Check if cielnt exists

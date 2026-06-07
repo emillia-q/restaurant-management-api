@@ -5,6 +5,7 @@ import com.restaurant.api.dto.request.OrderRequest;
 import com.restaurant.api.dto.response.OrderCreatedResponse;
 import com.restaurant.api.dto.response.OrderDetailResponse;
 import com.restaurant.api.dto.response.OrderItemResponse;
+import com.restaurant.api.dto.response.OrderListItemResponse;
 import com.restaurant.api.entities.Dish;
 import com.restaurant.api.entities.Order;
 import com.restaurant.api.entities.OrderItem;
@@ -14,6 +15,19 @@ import java.util.List;
 
 @Component
 public class OrderMapper {
+
+    public OrderListItemResponse toListItemResponse(Order order) {
+        OrderListItemResponse dto = new OrderListItemResponse();
+        dto.setId(order.getId());
+        dto.setOrderDateTime(order.getOrderDateTime());
+        dto.setOrderStatus(order.getOrderStatus());
+        dto.setType(order.getType());
+        dto.setClientFullName(order.getClient().getName() + " " + order.getClient().getLastName());
+        dto.setTotalPrice(order.getTotalPrice());
+        dto.setItemsCount(order.getItems().size());
+        return dto;
+    }
+
     public OrderCreatedResponse toCreatedResponse(Order order) {
         OrderCreatedResponse dto = new OrderCreatedResponse();
         dto.setId(order.getId());
