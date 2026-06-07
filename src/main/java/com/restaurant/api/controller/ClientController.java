@@ -4,8 +4,10 @@ import com.restaurant.api.assembler.ClientModelAssembler;
 import com.restaurant.api.dto.request.ClientRequest;
 import com.restaurant.api.dto.response.ClientDetailResponse;
 import com.restaurant.api.dto.response.ClientListItemResponse;
+import com.restaurant.api.dto.response.OrderDetailResponse;
 import com.restaurant.api.dto.response.hateoas.ClientResource;
 import com.restaurant.api.service.ClientService;
+import com.restaurant.api.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
@@ -21,6 +23,7 @@ import java.util.List;
 public class ClientController {
 
     private final ClientService clientService;
+    private final OrderService orderService;
     private final ClientModelAssembler clientModelAssembler;
 
     @GetMapping
@@ -46,9 +49,8 @@ public class ClientController {
     @Operation(summary = "Get list of orders for client")
     @ApiResponse(responseCode = "200")
     @ApiResponse(responseCode = "404", description = "Client not found")
-    public List<> getOrdersForClient(@PathVariable Long id) {
-        ClientDetailResponse dto = clientService.findClientById(id);
-        return clientModelAssembler.toModel(dto);
+    public List<OrderDetailResponse> getOrdersForClient(@PathVariable Long id) {
+        return orderService.getOrdersByClientId(id);
     }
 
     @PostMapping

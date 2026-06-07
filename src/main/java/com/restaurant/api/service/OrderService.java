@@ -84,6 +84,15 @@ public class OrderService {
         return orderMapper.toDetailResponse(order);
     }
 
+    public List<OrderDetailResponse> getOrdersByClientId(Long id) {
+        if(!clientRepository.existsById(id))
+            throw new ItemNotFoundException(Client.class, id);
+
+        return  orderRepository.findByClientId(id).stream()
+                .map(orderMapper::toDetailResponse)
+                .toList();
+    }
+
     public OrderCreatedResponse updateOrder(Long id, OrderRequest orderRequest) {
         //Check if order exists
         Order order = orderRepository.findById(id)
