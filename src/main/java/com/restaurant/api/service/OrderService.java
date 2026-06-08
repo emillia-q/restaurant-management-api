@@ -9,6 +9,7 @@ import com.restaurant.api.entities.Client;
 import com.restaurant.api.entities.Dish;
 import com.restaurant.api.entities.Order;
 import com.restaurant.api.entities.OrderItem;
+import com.restaurant.api.enums.OrderStatus;
 import com.restaurant.api.enums.OrderType;
 import com.restaurant.api.exception.BadRequestException;
 import com.restaurant.api.exception.ItemNotFoundException;
@@ -32,6 +33,12 @@ public class OrderService {
 
     public List<OrderListItemResponse> getAllOrders() {
         return orderRepository.findAll().stream()
+                .map(orderMapper::toListItemResponse)
+                .toList();
+    }
+
+    public List<OrderListItemResponse> getOrdersWithFilterOrderStatus(OrderStatus orderStatus) {
+        return orderRepository.findByOrderStatus(orderStatus).stream()
                 .map(orderMapper::toListItemResponse)
                 .toList();
     }

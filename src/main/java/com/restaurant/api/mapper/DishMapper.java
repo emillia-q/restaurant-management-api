@@ -13,6 +13,7 @@ public class DishMapper {
         dto.setId(dish.getId());
         dto.setName(dish.getName());
         dto.setCategory(dish.getCategory());
+        dto.setIsAvailable(dish.getIsAvailable());
         return dto;
     }
 

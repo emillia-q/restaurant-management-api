@@ -2,6 +2,7 @@ package com.restaurant.api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.restaurant.api.enums.DishCategory;
+import com.restaurant.api.enums.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
 
