@@ -6,6 +6,7 @@ import com.restaurant.api.dto.response.DishDetailResponse;
 import com.restaurant.api.dto.response.DishListItemResponse;
 import com.restaurant.api.dto.response.RecipeResponse;
 import com.restaurant.api.dto.response.hateoas.DishResource;
+import com.restaurant.api.enums.DishCategory;
 import com.restaurant.api.service.DishService;
 import com.restaurant.api.service.RecipeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +33,23 @@ public class DishController {
     @ApiResponse(responseCode = "200", description = "List of dishes")
     public List<DishListItemResponse> all() {
         return dishService.getAllDishes();
+    }
+
+    @GetMapping("/category")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Filter list of dishes by dish category")
+    @ApiResponse(responseCode = "200", description = "Filtered list of dishes")
+    @ApiResponse(responseCode = "400", description = "Wrong dish category")
+    public List<DishListItemResponse> filterByDishCategory(@RequestParam DishCategory category) {
+        return dishService.getDishesWithFilterCategory(category);
+    }
+
+    @GetMapping("/availability")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Filter list of dishes by availability")
+    @ApiResponse(responseCode = "200", description = "Filtered list of dishes")
+    public List<DishListItemResponse> filterByIsAvailable(@RequestParam Boolean isAvailable) {
+        return dishService.getDishesWithFilterAvailability(isAvailable);
     }
 
     @GetMapping("/{id}")

@@ -4,6 +4,7 @@ import com.restaurant.api.dto.request.OrderRequest;
 import com.restaurant.api.dto.response.OrderCreatedResponse;
 import com.restaurant.api.dto.response.OrderDetailResponse;
 import com.restaurant.api.dto.response.OrderListItemResponse;
+import com.restaurant.api.enums.OrderStatus;
 import com.restaurant.api.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,6 +29,14 @@ public class OrderController {
         return orderService.getAllOrders();
     }
 
+    @GetMapping("/status")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Filter list of orders by order status")
+    @ApiResponse(responseCode = "200", description = "Filtered list of orders")
+    @ApiResponse(responseCode = "400", description = "Wrong order status category")
+    public List<OrderListItemResponse> filterByOrderStatus(@RequestParam OrderStatus orderStatus) {
+        return orderService.getOrdersWithFilterOrderStatus(orderStatus);
+    }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)

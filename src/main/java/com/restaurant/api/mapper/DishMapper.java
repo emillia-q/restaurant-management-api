@@ -12,6 +12,26 @@ public class DishMapper {
         DishListItemResponse dto = new DishListItemResponse();
         dto.setId(dish.getId());
         dto.setName(dish.getName());
+        dto.setCategory(dish.getCategory());
+        dto.setIsAvailable(dish.getIsAvailable());
+        return dto;
+    }
+
+    public DishListItemResponse toListFilterByCategory(Dish dish) {
+        DishListItemResponse dto = new DishListItemResponse();
+        dto.setId(dish.getId());
+        dto.setName(dish.getName());
+        dto.setCategory(dish.getCategory());
+        dto.setIsAvailable(dish.getIsAvailable());
+        return dto;
+    }
+
+    public DishListItemResponse toListFilterByAvailability(Dish dish) {
+        DishListItemResponse dto = new DishListItemResponse();
+        dto.setId(dish.getId());
+        dto.setName(dish.getName());
+        dto.setCategory(dish.getCategory());
+        dto.setIsAvailable(dish.getIsAvailable());
         return dto;
     }
 
