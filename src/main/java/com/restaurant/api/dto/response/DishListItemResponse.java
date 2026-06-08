@@ -1,6 +1,7 @@
 package com.restaurant.api.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.restaurant.api.enums.DishCategory;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,10 +9,12 @@ import lombok.Setter;
 @Setter
 @JsonPropertyOrder({
         "id",
-        "name"
+        "name",
+        "dishCategory"
 })
 
 public class DishListItemResponse {
     private Long id;
     private String name;
+    private DishCategory category;
 }

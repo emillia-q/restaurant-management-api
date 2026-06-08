@@ -4,6 +4,7 @@ import com.restaurant.api.dto.request.DishRequest;
 import com.restaurant.api.dto.response.DishDetailResponse;
 import com.restaurant.api.dto.response.DishListItemResponse;
 import com.restaurant.api.entities.Dish;
+import com.restaurant.api.enums.DishCategory;
 import com.restaurant.api.exception.BadRequestException;
 import com.restaurant.api.exception.ItemNotFoundException;
 import com.restaurant.api.exception.ResourceInUseException;
@@ -25,6 +26,12 @@ public class DishService {
     public List<DishListItemResponse> getAllDishes() {
         return dishRepository.findAll().stream()
                 .map(dishMapper::toListItemResponse)
+                .toList();
+    }
+
+    public List<DishListItemResponse> getDishesWithParam(DishCategory category) {
+        return dishRepository.findByCategory(category).stream()
+                .map(dishMapper::toListWithParamsResponse)
                 .toList();
     }
 

@@ -12,6 +12,15 @@ public class DishMapper {
         DishListItemResponse dto = new DishListItemResponse();
         dto.setId(dish.getId());
         dto.setName(dish.getName());
+        dto.setCategory(dish.getCategory());
+        return dto;
+    }
+
+    public DishListItemResponse toListWithParamsResponse(Dish dish) {
+        DishListItemResponse dto = new DishListItemResponse();
+        dto.setId(dish.getId());
+        dto.setName(dish.getName());
+        dto.setCategory(dish.getCategory());
         return dto;
     }
 
