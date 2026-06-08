@@ -10,11 +10,12 @@ import lombok.Setter;
 @JsonPropertyOrder({
         "id",
         "name",
-        "dishCategory"
+        "category",
+        "isAvailable"
 })
-
 public class DishListItemResponse {
     private Long id;
     private String name;
     private DishCategory category;
+    private Boolean isAvailable;
 }

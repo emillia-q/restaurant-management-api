@@ -29,9 +29,15 @@ public class DishService {
                 .toList();
     }
 
-    public List<DishListItemResponse> getDishesWithParam(DishCategory category) {
+    public List<DishListItemResponse> getDishesWithFilterCategory(DishCategory category) {
         return dishRepository.findByCategory(category).stream()
-                .map(dishMapper::toListWithParamsResponse)
+                .map(dishMapper::toListFilterByCategory)
+                .toList();
+    }
+
+    public List<DishListItemResponse> getDishesWithFilterAvailability(Boolean isAvailable) {
+        return dishRepository.findByIsAvailable(isAvailable).stream()
+                .map(dishMapper::toListFilterByAvailability)
                 .toList();
     }
 
