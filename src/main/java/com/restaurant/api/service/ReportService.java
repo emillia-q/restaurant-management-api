@@ -1,6 +1,7 @@
 package com.restaurant.api.service;
 
 import com.restaurant.api.dto.response.report.DailySalesReportResponse;
+import com.restaurant.api.dto.response.report.OrdersByTypeReportResponse;
 import com.restaurant.api.dto.response.report.PopularDishReportResponse;
 import com.restaurant.api.repository.DishRepository;
 import com.restaurant.api.repository.OrderRepository;
@@ -30,5 +31,9 @@ public class ReportService {
         LocalDateTime end = month.plusMonths(1).atDay(1).atStartOfDay();
 
         return dishRepository.findPopularDishes(start, end);
+    }
+
+    public List<OrdersByTypeReportResponse> getOrdersByTypeReport() {
+        return orderRepository.countOrdersByType();
     }
 }
