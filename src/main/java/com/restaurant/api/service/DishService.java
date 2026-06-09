@@ -23,21 +23,19 @@ public class DishService {
     private final OrderItemRepository orderItemRepository;
     private final DishMapper dishMapper;
 
-    public List<DishListItemResponse> getAllDishes() {
-        return dishRepository.findAll().stream()
+    public List<DishListItemResponse> getAllDishes(DishCategory category, Boolean isAvailable) {
+        List<Dish> listOfDishes;
+        if(category!=null && isAvailable!=null)
+            listOfDishes = dishRepository.findByCategoryAndIsAvailable(category,isAvailable);
+        else if(category!=null)
+            listOfDishes = dishRepository.findByCategory(category);
+        else if(isAvailable!=null)
+            listOfDishes = dishRepository.findByIsAvailable(isAvailable);
+        else
+            listOfDishes = dishRepository.findAll();
+
+        return listOfDishes.stream()
                 .map(dishMapper::toListItemResponse)
-                .toList();
-    }
-
-    public List<DishListItemResponse> getDishesWithFilterCategory(DishCategory category) {
-        return dishRepository.findByCategory(category).stream()
-                .map(dishMapper::toListFilterByCategory)
-                .toList();
-    }
-
-    public List<DishListItemResponse> getDishesWithFilterAvailability(Boolean isAvailable) {
-        return dishRepository.findByIsAvailable(isAvailable).stream()
-                .map(dishMapper::toListFilterByAvailability)
                 .toList();
     }
 
