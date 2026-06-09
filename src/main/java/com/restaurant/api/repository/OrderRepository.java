@@ -1,5 +1,6 @@
 package com.restaurant.api.repository;
 
+import com.restaurant.api.dto.response.report.OrdersByTypeReportResponse;
 import com.restaurant.api.entities.Order;
 import com.restaurant.api.enums.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,10 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
             "where o.orderStatus != 'CANCELLED' " +
             "and cast(o.orderDateTime as localdate) = :date")
     Double getDailySalesAmount(LocalDate date);
+
+    @Query("select new com.restaurant.api.dto.response.report.OrdersByTypeReportResponse(o.type, count(o)) " +
+            "from Order o " +
+            "group by o.type " +
+            "order by count(o) desc")
+    List<OrdersByTypeReportResponse> countOrdersByType();
 }
