@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class ReportController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get daily sales amount")
     @ApiResponse(responseCode = "200")
-    public Double amount(@RequestParam LocalDateTime start, @RequestParam LocalDateTime end) {
-        return reportService.getAmount(start, end);
+    public Double amount(@RequestParam LocalDate date) {
+        return reportService.getAmount(date);
     }
 }
