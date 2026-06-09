@@ -1,5 +1,6 @@
 package com.restaurant.api.controller;
 
+import com.restaurant.api.dto.response.report.DailySalesReportResponse;
 import com.restaurant.api.service.ReportService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,7 +20,7 @@ public class ReportController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get daily sales amount")
     @ApiResponse(responseCode = "200")
-    public Double amount(@RequestParam LocalDate date) {
+    public DailySalesReportResponse amount(@RequestParam LocalDate date) {
         return reportService.getAmount(date);
     }
 }

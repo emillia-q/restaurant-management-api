@@ -1,5 +1,6 @@
 package com.restaurant.api.service;
 
+import com.restaurant.api.dto.response.report.DailySalesReportResponse;
 import com.restaurant.api.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,9 @@ public class ReportService {
 
     private final OrderRepository orderRepository;
 
-    public Double getAmount(LocalDate date) {
+    public DailySalesReportResponse getAmount(LocalDate date) {
         Double amount = orderRepository.getDailySalesAmount(date);
-        return (amount!=null) ? amount : 0.0;
+        double finalAmount =  (amount!=null) ? amount : 0.0;
+        return new DailySalesReportResponse(date, finalAmount);
     }
 }
