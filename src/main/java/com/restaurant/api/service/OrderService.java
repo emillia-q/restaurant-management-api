@@ -31,8 +31,14 @@ public class OrderService {
     private final DishRepository dishRepository;
     private final OrderMapper orderMapper;
 
-    public List<OrderListItemResponse> getAllOrders() {
-        return orderRepository.findAll().stream()
+    public List<OrderListItemResponse> getAllOrders(OrderStatus orderStatus) {
+        List<Order> listOfOrders;
+        if(orderStatus==null)
+            listOfOrders = orderRepository.findAll();
+        else
+            listOfOrders = orderRepository.findByOrderStatus(orderStatus);
+
+        return listOfOrders.stream()
                 .map(orderMapper::toListItemResponse)
                 .toList();
     }

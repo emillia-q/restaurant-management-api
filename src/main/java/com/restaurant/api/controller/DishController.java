@@ -29,27 +29,11 @@ public class DishController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Get the list of dishes")
+    @Operation(summary = "Get the list of dishes with optional filtering")
     @ApiResponse(responseCode = "200", description = "List of dishes")
-    public List<DishListItemResponse> all() {
-        return dishService.getAllDishes();
-    }
-
-    @GetMapping("/category")
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Filter list of dishes by dish category")
-    @ApiResponse(responseCode = "200", description = "Filtered list of dishes")
-    @ApiResponse(responseCode = "400", description = "Wrong dish category")
-    public List<DishListItemResponse> filterByDishCategory(@RequestParam DishCategory category) {
-        return dishService.getDishesWithFilterCategory(category);
-    }
-
-    @GetMapping("/availability")
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Filter list of dishes by availability")
-    @ApiResponse(responseCode = "200", description = "Filtered list of dishes")
-    public List<DishListItemResponse> filterByIsAvailable(@RequestParam Boolean isAvailable) {
-        return dishService.getDishesWithFilterAvailability(isAvailable);
+    public List<DishListItemResponse> all(@RequestParam(required = false) DishCategory category,
+                                          @RequestParam(required = false) Boolean isAvailable) {
+        return dishService.getAllDishes(category, isAvailable);
     }
 
     @GetMapping("/{id}")
