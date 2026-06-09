@@ -23,19 +23,10 @@ public class OrderController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Get list of all orders")
+    @Operation(summary = "Get list of all orders with optional filtering")
     @ApiResponse(responseCode = "200", description = "List of orders")
-    public List<OrderListItemResponse> all() {
-        return orderService.getAllOrders();
-    }
-
-    @GetMapping("/status")
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Filter list of orders by order status")
-    @ApiResponse(responseCode = "200", description = "Filtered list of orders")
-    @ApiResponse(responseCode = "400", description = "Wrong order status category")
-    public List<OrderListItemResponse> filterByOrderStatus(@RequestParam OrderStatus orderStatus) {
-        return orderService.getOrdersWithFilterOrderStatus(orderStatus);
+    public List<OrderListItemResponse> all(@RequestParam(required = false) OrderStatus orderStatus) {
+        return orderService.getAllOrders(orderStatus);
     }
 
     @GetMapping("/{id}")
