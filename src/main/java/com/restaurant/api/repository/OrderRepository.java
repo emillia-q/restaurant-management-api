@@ -5,6 +5,7 @@ import com.restaurant.api.enums.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,6 +16,6 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
     // Report scenarios
     @Query("select sum(o.totalPrice) from Order o " +
             "where o.orderStatus != 'CANCELLED' " +
-            "and o.orderDateTime between :start and :end")
-    Double getDailySalesAmount(LocalDateTime start, LocalDateTime end);
+            "and cast(o.orderDateTime as localdate) = :date")
+    Double getDailySalesAmount(LocalDate date);
 }
