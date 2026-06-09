@@ -12,4 +12,5 @@ public interface DishRepository extends JpaRepository<Dish, Long> {
     boolean existsById(Long id);
     List<Dish> findByCategory(DishCategory category);
     List<Dish> findByIsAvailable(Boolean isAvailable);
+    List<Dish> findByCategoryAndIsAvailable(DishCategory category, Boolean isAvailable);
 }
