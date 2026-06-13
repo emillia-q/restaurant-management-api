@@ -66,6 +66,11 @@ public class OrderService {
         for (OrderItemRequest itemReq : orderRequest.getItems()) {
             Dish dish = dishRepository.findById(itemReq.getDishId())
                     .orElseThrow(() -> new ItemNotFoundException(Dish.class, itemReq.getDishId()));
+
+            // Prevent add unavailable dish
+            if (!dish.getIsAvailable())
+                throw new BadRequestException("Dish '" + dish.getName() + "' (ID: " + dish.getId() + ") is currently not available");
+
             OrderItem item = orderMapper.toOrderItem(itemReq, dish, order);
             order.getItems().add(item);
         }
@@ -131,6 +136,11 @@ public class OrderService {
         for (OrderItemRequest itemReq : orderRequest.getItems()) {
             Dish dish = dishRepository.findById(itemReq.getDishId())
                     .orElseThrow(() -> new ItemNotFoundException(Dish.class, itemReq.getDishId()));
+
+            // Prevent add unavailable dish
+            if (!dish.getIsAvailable())
+                throw new BadRequestException("Dish '" + dish.getName() + "' (ID: " + dish.getId() + ") is currently not available");
+
             OrderItem item = orderMapper.toOrderItem(itemReq, dish, order);
             order.getItems().add(item);
         }
