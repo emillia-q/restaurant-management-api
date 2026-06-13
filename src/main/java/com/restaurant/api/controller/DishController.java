@@ -31,8 +31,8 @@ public class DishController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get the list of dishes with optional filtering")
     @ApiResponse(responseCode = "200", description = "List of dishes")
-    public List<DishListItemResponse> all(@RequestParam(required = false) DishCategory category,
-                                          @RequestParam(required = false) Boolean isAvailable) {
+    public List<DishListItemResponse> all(@RequestParam(value = "category", required = false) DishCategory category,
+                                          @RequestParam(value = "isAvailable", required = false) Boolean isAvailable) {
         return dishService.getAllDishes(category, isAvailable);
     }
 

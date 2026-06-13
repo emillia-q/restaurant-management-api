@@ -43,12 +43,6 @@ public class OrderService {
                 .toList();
     }
 
-    public List<OrderListItemResponse> getOrdersWithFilterOrderStatus(OrderStatus orderStatus) {
-        return orderRepository.findByOrderStatus(orderStatus).stream()
-                .map(orderMapper::toListItemResponse)
-                .toList();
-    }
-
     public OrderCreatedResponse addOrder(OrderRequest orderRequest) {
         // Check if cielnt exists
         Client client = clientRepository.findById(orderRequest.getClientId())
