@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface DishRepository extends JpaRepository<Dish, Long> {
-    boolean existsByName(String name);
+    boolean existsByNameIgnoreCase(String name);
     boolean existsById(Long id);
     List<Dish> findByCategory(DishCategory category);
     List<Dish> findByIsAvailable(Boolean isAvailable);

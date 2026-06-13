@@ -46,7 +46,7 @@ public class DishService {
     }
 
     public DishDetailResponse addDish(DishRequest dishRequest) {
-        if (dishRepository.existsByName(dishRequest.getName()))
+        if (dishRepository.existsByNameIgnoreCase(dishRequest.getName()))
             throw new BadRequestException("Dish with name: " + dishRequest.getName() + " already exists");
         Dish dish = dishMapper.toEntity(dishRequest);
         Dish saved = dishRepository.save(dish);
@@ -58,7 +58,7 @@ public class DishService {
                 .orElseThrow(() -> new ItemNotFoundException(Dish.class, id));
 
         // Check if new name is not taken by another dish
-        if (!dish.getName().equals(dishRequest.getName()) && dishRepository.existsByName(dishRequest.getName()))
+        if (!dish.getName().equalsIgnoreCase(dishRequest.getName()) && dishRepository.existsByNameIgnoreCase(dishRequest.getName()))
             throw new BadRequestException("Dish with name: " + dishRequest.getName() + " already exists");
 
         dishMapper.updateFromRequest(dish, dishRequest);
