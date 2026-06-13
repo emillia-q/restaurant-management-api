@@ -10,6 +10,10 @@ import lombok.Setter;
 public class DishRequest {
     @NotBlank(message = "Dish name is required")
     @Size(min = 2, max = 100, message = "Dish name must be between 2 and 100 characters")
+    @Pattern(
+            regexp = "^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\\s]+$",
+            message = "Dish name must contain only letters"
+    )
     private String name;
 
     @NotNull(message = "Category is required")

@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
-    // 400, when someone type text instead of ID in URL
+    // 400, when someone type text instead of ID in URL or invalid enum value
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<@NonNull Object> handleTypeMismatchException(MethodArgumentTypeMismatchException ex) {
         String msg = "Parameter " + ex.getName() + " should be type " +

@@ -43,12 +43,6 @@ public class OrderService {
                 .toList();
     }
 
-    public List<OrderListItemResponse> getOrdersWithFilterOrderStatus(OrderStatus orderStatus) {
-        return orderRepository.findByOrderStatus(orderStatus).stream()
-                .map(orderMapper::toListItemResponse)
-                .toList();
-    }
-
     public OrderCreatedResponse addOrder(OrderRequest orderRequest) {
         // Check if cielnt exists
         Client client = clientRepository.findById(orderRequest.getClientId())
@@ -72,6 +66,11 @@ public class OrderService {
         for (OrderItemRequest itemReq : orderRequest.getItems()) {
             Dish dish = dishRepository.findById(itemReq.getDishId())
                     .orElseThrow(() -> new ItemNotFoundException(Dish.class, itemReq.getDishId()));
+
+            // Prevent add unavailable dish
+            if (!dish.getIsAvailable())
+                throw new BadRequestException("Dish '" + dish.getName() + "' (ID: " + dish.getId() + ") is currently not available");
+
             OrderItem item = orderMapper.toOrderItem(itemReq, dish, order);
             order.getItems().add(item);
         }
@@ -115,6 +114,10 @@ public class OrderService {
         Client client = clientRepository.findById(orderRequest.getClientId())
                 .orElseThrow(() -> new ItemNotFoundException(Client.class, orderRequest.getClientId()));
 
+        // Check if order is valid
+        if (order.getOrderStatus() == OrderStatus.COMPLETED || order.getOrderStatus() == OrderStatus.CANCELLED)
+            throw new BadRequestException("Cannot modify a completed or cancelled order");
+
         // Set missing entity fields
         orderMapper.updateFromRequest(order, orderRequest);
         order.setClient(client);
@@ -133,6 +136,11 @@ public class OrderService {
         for (OrderItemRequest itemReq : orderRequest.getItems()) {
             Dish dish = dishRepository.findById(itemReq.getDishId())
                     .orElseThrow(() -> new ItemNotFoundException(Dish.class, itemReq.getDishId()));
+
+            // Prevent add unavailable dish
+            if (!dish.getIsAvailable())
+                throw new BadRequestException("Dish '" + dish.getName() + "' (ID: " + dish.getId() + ") is currently not available");
+
             OrderItem item = orderMapper.toOrderItem(itemReq, dish, order);
             order.getItems().add(item);
         }

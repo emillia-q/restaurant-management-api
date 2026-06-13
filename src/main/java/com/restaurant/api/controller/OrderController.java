@@ -25,7 +25,7 @@ public class OrderController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get list of all orders with optional filtering")
     @ApiResponse(responseCode = "200", description = "List of orders")
-    public List<OrderListItemResponse> all(@RequestParam(required = false) OrderStatus orderStatus) {
+    public List<OrderListItemResponse> all(@RequestParam(value = "orderStatus", required = false) OrderStatus orderStatus) {
         return orderService.getAllOrders(orderStatus);
     }
 
