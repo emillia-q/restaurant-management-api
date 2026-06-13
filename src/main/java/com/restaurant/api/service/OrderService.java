@@ -115,6 +115,10 @@ public class OrderService {
         Client client = clientRepository.findById(orderRequest.getClientId())
                 .orElseThrow(() -> new ItemNotFoundException(Client.class, orderRequest.getClientId()));
 
+        // Check if order is valid
+        if (order.getOrderStatus() == OrderStatus.COMPLETED || order.getOrderStatus() == OrderStatus.CANCELLED)
+            throw new BadRequestException("Cannot modify a completed or cancelled order");
+
         // Set missing entity fields
         orderMapper.updateFromRequest(order, orderRequest);
         order.setClient(client);
