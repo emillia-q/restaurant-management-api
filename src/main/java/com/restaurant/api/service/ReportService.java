@@ -29,8 +29,8 @@ public class ReportService {
     public List<PopularDishReportResponse> getPopularDishes(YearMonth month) {
         YearMonth targetMonth = (month != null) ? month : YearMonth.now();
 
-        LocalDateTime start = month.atDay(1).atStartOfDay();
-        LocalDateTime end = month.plusMonths(1).atDay(1).atStartOfDay();
+        LocalDateTime start = targetMonth.atDay(1).atStartOfDay();
+        LocalDateTime end = targetMonth.plusMonths(1).atDay(1).atStartOfDay();
 
         return dishRepository.findPopularDishes(start, end);
     }
