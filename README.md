@@ -8,20 +8,23 @@ Enterprise-grade RESTful API for restaurant operations, order processing and sal
 
 ---
 
-## 📸 Screenshots & Demo
+## 📊 API Visual Preview & Database State
 
-### Interactive API Documentation (Swagger UI)
-
+### 1. Interactive API Documentation (Swagger UI)
 *Explore and test all available endpoints directly through the auto-generated documentation interface.*
 
-![Swagger UI](/assets/swagger.png)
+![Swagger UI](assets/swagger.png)
 
-### Key Project Artifacts
+### 2. Hypermedia Navigation via HATEOAS (Postman Example)
+*Example of dynamic resource discovery using HATEOAS _links. The API provides related network paths directly within the
+JSON response, decoupling the client from hardcoded URLs.*
 
-* **Postman Collection:** Complete pre-configured workspace with example requests and edge-case responses for all
-  business integration scenarios.
-* **H2 Console:** Embedded in-memory database visualization tool utilized for real-time state monitoring and sample data
-  seeding.
+![Postman HATEOAS Response](assets/hateoas_preview.png)
+
+### 3. In-Memory Relational Database State (H2 Console)
+*Visualizing the relational database schema, seeded mock data and table structures utilized during live API testing.*
+
+![H2 Database Console](assets/h2_console.png)
 
 ---
 
