@@ -10,16 +10,22 @@ Enterprise-grade RESTful API for restaurant operations, order processing and sal
 
 ## 📸 Screenshots & Demo
 
-* **Swagger UI** (`/swagger-ui.html`) - Interactive API documentation with all endpoints
-* **Postman Collection** - Example requests and responses for all scenarios
-* **HATEOAS Links** - JSON responses showing dynamic `_links` navigation
-* **H2 Console** - Database state and sample data visualization
-* **Error Responses** - Uniform JSON error handling examples
-* **Report Endpoints** - Aggregated analytics data (daily sales, popular dishes)
+### Interactive API Documentation (Swagger UI)
+
+*Explore and test all available endpoints directly through the auto-generated documentation interface.*
+
+![Swagger UI](/assets/swagger.png)
+
+### Key Project Artifacts
+
+* **Postman Collection:** Complete pre-configured workspace with example requests and edge-case responses for all
+  business integration scenarios.
+* **H2 Console:** Embedded in-memory database visualization tool utilized for real-time state monitoring and sample data
+  seeding.
 
 ---
 
-## 🛠️ How it works & Key Features
+## ⚙️ Core Business Logic & Features
 
 Restaurant management system managing **Clients**, **Dishes** and **Orders** with full CRUD operations and order
 lifecycle (`NEW` -> `IN_PREPARATION` -> `READY` -> `COMPLETED`) for `DINE_IN`, `TAKEAWAY`, and `DELIVERY`.
@@ -31,8 +37,7 @@ lifecycle (`NEW` -> `IN_PREPARATION` -> `READY` -> `COMPLETED`) for `DINE_IN`, `
   lowercasing to protect database integrity
 * **HATEOAS:** Dynamic `_links` for navigation (e.g., `GET /clients/1` -> `/clients/1/orders`)
 * **Dynamic Filtering:** URL parameters like `GET /dishes?category=MAIN_COURSE&isAvailable=true`
-* **Business Intelligence:** JPQL aggregations for daily sales, popular dishes, order distribution using immutable **Java
-  Records**
+* **Business Intelligence:** JPQL aggregations for daily sales, popular dishes, order distribution using immutable **Java Records**
 * **Precise Date Queries:** `LocalDateTime.atStartOfDay()` and `YearMonth.plusMonths()` for accurate time ranges
 * **Global Exception Handling:** `@RestControllerAdvice` returning uniform JSON with `timestamp`, `message`, `status`
 
@@ -43,7 +48,7 @@ lifecycle (`NEW` -> `IN_PREPARATION` -> `READY` -> `COMPLETED`) for `DINE_IN`, `
 * **Language & Framework:** Java 21 with Spring Boot 4.0.5
 * **Persistence:** Spring Data JPA (Hibernate) with custom JPQL queries
 * **Database:** H2 (in-memory) with pre-loaded sample data
-* **Libraries:** Lombok (`@Data`, `@AllArgsConstructor`), Spring HATEOAS
+* **Libraries:** Lombok (e.g., `@AllArgsConstructor`), Spring HATEOAS
 * **Documentation:** Springdoc OpenAPI 3.0.0 / Swagger UI
 * **Build Tool:** Maven
 * **Testing:** Postman
