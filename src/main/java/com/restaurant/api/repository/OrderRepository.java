@@ -21,6 +21,7 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
 
     @Query("select new com.restaurant.api.dto.response.report.OrdersByTypeReportResponse(o.type, count(o)) " +
             "from Order o " +
+            "where o.orderStatus != 'CANCELLED' " +
             "group by o.type " +
             "order by count(o) desc")
     List<OrdersByTypeReportResponse> countOrdersByType();
