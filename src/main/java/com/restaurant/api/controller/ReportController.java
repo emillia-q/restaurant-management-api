@@ -25,7 +25,7 @@ public class ReportController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get daily sales amount")
     @ApiResponse(responseCode = "200")
-    public DailySalesReportResponse amount(@RequestParam LocalDate date) {
+    public DailySalesReportResponse amount(@RequestParam(value = "date", required = false) LocalDate date) {
         return reportService.getAmount(date);
     }
 
