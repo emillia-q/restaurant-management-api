@@ -1,59 +1,39 @@
 # 🍽️ Restaurant Management API
 
-## Enterprise-grade RESTful API for restaurant operations, order processing and sales analytics.
+Enterprise-grade RESTful API for restaurant operations, order processing and sales analytics.
 
 > [!IMPORTANT]
-> **Academic Prototype & CRUD Specification:** This project is a prototype to
-> practice enterprise API design. To fulfill strict academic requirements for a full CRUD implementation, the system
-> performs **Hard Deletes** on records (e.g., physically deleting clients and cascading their data). In a commercial,
-> production-ready environment, a **Soft Delete** approach (using flags like `isActive = false`) would be mandatory to
-> prevent data loss and preserve financial order history for business intelligence.
+> **Academic Prototype:** This project uses **Hard Deletes** to fulfill CRUD requirements. In production environments, **Soft Deletes** (`isActive = false`) should be used to preserve order history and prevent data loss.
 
 ## 🛠️ How it works
 
-The backend exposes a secure API designed to support front-end applications for Clients, Waiters, Kitchen Staff, and
-Restaurant Managers.
-Clients can browse available menus, and system operators can create orders for **Dine-In, Takeaway, or Delivery**. The
-system handles total price calculation, automatically formats and sanitizes user input, validates unique fields, and
-seamlessly updates order states through a robust status pipeline.
+The API supports operations for Clients, Waiters, Kitchen Staff, and Managers. System handles orders for **Dine-In, Takeaway, and Delivery** with automatic price calculation, input sanitization, field validation, and order status updates through a robust pipeline.
 
 ---
 
 ## 📐 Architecture & Tech Stack
 
-### Technology Stack & Production Practices
+### Technology Stack
 
-* **Language & Framework:** **Java 21** with **Spring Boot 4.0.5**.
-* **Persistence Layer:** **Spring Data JPA (Hibernate)** for object-relational mapping.
-* **Database:** **H2 Database** (in-memory) with sample data initialization.
-* **Additional Libraries:** **Lombok** for boilerplate reduction, **Spring HATEOAS** for hypermedia-driven APIs.
-* **Documentation:** **Springdoc OpenAPI 3.0.0 / Swagger UI** for interactive API documentation.
-* **Build Tool:** **Maven** with custom annotation processing configuration.
-* **Testing Platform:** **Postman** for automated API endpoint and integration verification.
+* **Language & Framework:** Java 21 with Spring Boot 4.0.5
+* **Persistence:** Spring Data JPA (Hibernate)
+* **Database:** H2 (in-memory) with sample data
+* **Libraries:** Lombok, Spring HATEOAS
+* **Documentation:** Springdoc OpenAPI 3.0.0 / Swagger UI
+* **Build Tool:** Maven
+* **Testing:** Postman
 
 ---
 
 ## ⚙️ Key Features
 
-This project implements production-grade backend patterns:
-
-* **Full CRUD Automation:** Complete lifecycle management for Clients, Dishes, and Orders based on a strictly verified
-  list of business integration scenarios.
-* **Data Sanitization Pipeline:** Custom automated data cleaning (e.g., stripping trailing/leading whitespaces via
-  `.trim()`, uniform phone number formatting, and lowercasing e-mails) protecting the database from corrupted smartphone
-  autocomplete inputs.
-* **HATEOAS Maturity:** Implementation of Hypermedia As the Engine of Application State (`_links`). The API returns
-  dynamic links to related resources (e.g., navigating from a Client profile directly to their dynamic Order History
-  URL).
-* **Advanced Criteria & Filtering:** Dynamic data querying allowing users to filter dishes by categories (e.g.,
-  `MAIN_COURSE`), availability status, or retrieve specific orders by their execution state.
-* **Enterprise Reporting & Analytics:** High-performance analytical queries using JPQL aggregation (`SUM`, `COUNT`)
-  combined with `GROUP BY` statements mapped directly into high-performance Java Records/DTOs.
-* **Robust Range Queries:** Date-range calculation utilizing semi-open intervals (`>= startOfMonth` and
-  `< startOfNextDay`) ensuring no database index truncation and absolute accuracy in daily/monthly financial reports.
-* **Global Exception Handling:** A centralized `@ControllerAdvice` component that intercepts business exceptions (e.g.,
-  `ItemNotFoundException`, data duplicity, parsing errors) and translates them into uniform, developer-friendly JSON
-  error responses with appropriate HTTP 4xx/5xx status codes.
+* **Full CRUD Operations:** Complete lifecycle management for Clients, Dishes, and Orders with validation
+* **Data Sanitization:** Automated cleaning via `.trim()`, phone formatting, and email lowercasing to protect database integrity
+* **HATEOAS Implementation:** Dynamic `_links` in responses for navigation between related resources (e.g., Client → Order History)
+* **Advanced Filtering:** Query by dish category (`MAIN_COURSE`), availability status, or order execution state
+* **Reporting & Analytics:** JPQL aggregations (`SUM`, `COUNT`, `GROUP BY`) mapped to Java Records/DTOs
+* **Date Range Queries:** Semi-open intervals (`>= startOfMonth`, `< startOfNextDay`) for accurate daily/monthly reports
+* **Global Exception Handling:** Centralized `@ControllerAdvice` returning uniform JSON errors with proper HTTP status codes
 
 ---
 
