@@ -3,8 +3,8 @@
 Enterprise-grade RESTful API for restaurant operations, order processing and sales analytics.
 
 > [!IMPORTANT]
-> **Academic Prototype:** This project uses **Hard Deletes** to fulfill CRUD requirements. In production environments, *
-*Soft Deletes** (`isActive = false`) should be used to preserve report history and prevent data loss.
+> **Academic Prototype:** This project uses **Hard Deletes** to fulfill CRUD requirements. In production environments,
+> **Soft Deletes** (`isActive = false`) should be used to preserve report history and prevent data loss.
 
 ---
 
