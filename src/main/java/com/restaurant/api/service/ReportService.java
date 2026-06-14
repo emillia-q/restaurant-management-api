@@ -21,14 +21,18 @@ public class ReportService {
     private final DishRepository dishRepository;
 
     public DailySalesReportResponse getAmount(LocalDate date) {
-        Double amount = orderRepository.getDailySalesAmount(date);
+        LocalDate targetDate = (date != null) ? date : LocalDate.now();
+
+        Double amount = orderRepository.getDailySalesAmount(targetDate);
         double finalAmount =  (amount!=null) ? amount : 0.0;
-        return new DailySalesReportResponse(date, finalAmount);
+        return new DailySalesReportResponse(targetDate, finalAmount);
     }
 
     public List<PopularDishReportResponse> getPopularDishes(YearMonth month) {
-        LocalDateTime start = month.atDay(1).atStartOfDay();
-        LocalDateTime end = month.plusMonths(1).atDay(1).atStartOfDay();
+        YearMonth targetMonth = (month != null) ? month : YearMonth.now();
+
+        LocalDateTime start = targetMonth.atDay(1).atStartOfDay();
+        LocalDateTime end = targetMonth.plusMonths(1).atDay(1).atStartOfDay();
 
         return dishRepository.findPopularDishes(start, end);
     }
