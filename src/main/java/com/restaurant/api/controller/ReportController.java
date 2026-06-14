@@ -33,7 +33,7 @@ public class ReportController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Get list of popular dishes")
     @ApiResponse(responseCode = "200")
-    public List<PopularDishReportResponse> getPopularDishes(@RequestParam YearMonth month) {
+    public List<PopularDishReportResponse> getPopularDishes(@RequestParam(value = "month", required = false) YearMonth month) {
         return reportService.getPopularDishes(month);
     }
 
