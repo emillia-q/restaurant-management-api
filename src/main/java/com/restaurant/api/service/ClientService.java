@@ -19,6 +19,18 @@ public class ClientService {
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
 
+    private void toCapitalLetter(Client client) {
+        // Name
+        String formattedName = client.getName().trim().substring(0, 1).toUpperCase()
+                + client.getName().trim().substring(1).toLowerCase();
+        client.setName(formattedName);
+
+        // Last name
+        String formattedLastName = client.getLastName().trim().substring(0, 1).toUpperCase()
+                + client.getLastName().trim().substring(1).toLowerCase();
+        client.setLastName(formattedLastName);
+    }
+
     public List<ClientListItemResponse> getAllClients() {
         return clientRepository.findAll().stream()
                 .map(clientMapper::toListItemResponse)
@@ -38,6 +50,7 @@ public class ClientService {
             throw new BadRequestException("Client with phone number: " + clientRequest.getPhoneNumber() + " already exists");
 
         Client client = clientMapper.toEntity(clientRequest);
+        toCapitalLetter(client);
         Client saved = clientRepository.save(client);
         return clientMapper.toDetailResponse(saved);
     }
@@ -53,6 +66,7 @@ public class ClientService {
             throw new BadRequestException("Client with phone number: " + clientRequest.getPhoneNumber() + " already exists");
 
         clientMapper.updateFromRequest(client, clientRequest);
+        toCapitalLetter(client);
         Client saved = clientRepository.save(client);
         return clientMapper.toDetailResponse(saved);
     }

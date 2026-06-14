@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClientMapper {
 
-    // TODO: add helper method to convert first letter of name and last name to capital
-
     public ClientListItemResponse toListItemResponse(Client client) {
         ClientListItemResponse dto = new ClientListItemResponse();
         dto.setId(client.getId());
