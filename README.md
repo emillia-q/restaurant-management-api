@@ -70,6 +70,8 @@ Tested against comprehensive scenarios:
 
 *Full endpoint documentation with example payloads: [scenario_list.md](scenario_list.md)*
 
+*Swagger documentation: [openapi_documentation.pdf](openapi_documentation.pdf)*
+
 ---
 
 ## 👥 The Team
